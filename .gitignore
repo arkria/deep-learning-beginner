@@ -3,4 +3,4 @@ outputs/
 MNIST/
 *.pyc
 */__pycache__/**
-
+datas/

@@ -65,7 +65,7 @@ class CustomLogger(ModelSummary):
     
     def on_validation_epoch_end(self, trainer, pl_module):
         # 每隔固定迭代打印损失并记录到文件
-        log_message = f"Valid: [{trainer.current_epoch}/{trainer.max_epochs}], Iter: {trainer.global_step}"
+        log_message = f"----- Valid: {trainer.current_epoch} {trainer.global_step} -----"
         self.custom_logger.info(log_message)
         for k, v in self.val_dict.items():
             self.custom_logger.info(f"{k}: {np.mean(v) / len(v):.4f}")

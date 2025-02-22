@@ -7,7 +7,7 @@ from lightning.pytorch.callbacks import LearningRateMonitor
 import argparse
 import os.path as osp
 
-from logger.custom_base_logger import CustomLogger
+from logger import MnistAETaskLogger as Logger
 from module.autoencoder_example import LitAutoEncoder
 from dataset.mnist_dataset import get_mnist_data
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     logger = TensorBoardLogger(save_dir=tensorboard_dir)
     lr_monitor = LearningRateMonitor(logging_interval='step')
-    custom_logger = CustomLogger(log_interval=args.log_interval, log_file=log_dir)
+    custom_logger = Logger(log_interval=args.log_interval, log_file=log_dir, img_dump_dir=osp.join(output_dir, 'images'))
 
     # -------------------
     # Step 2: Define data

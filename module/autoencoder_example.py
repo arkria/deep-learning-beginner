@@ -58,7 +58,9 @@ class LitAutoEncoder(L.LightningModule):
         x_hat = self.decoder(z)
         loss = F.mse_loss(x_hat, x)
         self.log_dict({'val_loss': loss})
-        return {'val_loss': loss}
+        return {'val_loss': loss, 
+                'x': [v.reshape(28, 28) for v in x.detach().cpu().numpy()], 
+                'x_hat': [v.reshape(28, 28) for v in x_hat.detach().cpu().numpy()]}
 
     
 
