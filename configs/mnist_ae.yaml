@@ -1,0 +1,21 @@
+task_name: &TASK_NAME task_mnist_ae
+dataset:
+  name: get
+
+model:
+  name: mnist_vae
+  params:
+    encoder_layer_sizes: [784, 128]
+    latent_size: 3
+    decoder_layer_sizes: [3, 128, 784]
+    input_shape: [28, 28, 1]
+    latent_dim: 2
+
+optimizer:
+  name: Adam
+  params:
+    lr: 0.001
+    warmup_steps: 1000
+    total_steps: 10000
+    start_factor: 0.01
+    eta_min: 1.0e-6

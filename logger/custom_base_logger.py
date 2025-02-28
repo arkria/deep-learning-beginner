@@ -41,6 +41,7 @@ class CustomLogger(ModelSummary):
             os.remove(log_file)
         self.log_interval = log_interval
         self.log_file = log_file
+        os.makedirs(osp.dirname(log_file), exist_ok=True)
         self.custom_logger = set_logger(log_file)
 
         self.val_dict = defaultdict(list)

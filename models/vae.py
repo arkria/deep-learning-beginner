@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-
-from tools.utils import idx2onehot
+import torch.nn.functional as F
 
 
 class VAE(nn.Module):
@@ -73,7 +72,7 @@ class Encoder(nn.Module):
     def forward(self, x, c=None):
 
         if self.conditional:
-            c = idx2onehot(c, n=10)
+            c = F.one_hot(c, num_classes=10)
             x = torch.cat((x, c), dim=-1)
 
         x = self.MLP(x)
@@ -110,7 +109,7 @@ class Decoder(nn.Module):
     def forward(self, z, c):
 
         if self.conditional:
-            c = idx2onehot(c, n=10)
+            c = F.one_hot(c, num_classes=10)
             z = torch.cat((z, c), dim=-1)
 
         x = self.MLP(z)

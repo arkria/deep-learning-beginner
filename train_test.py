@@ -8,8 +8,9 @@ import argparse
 import os.path as osp
 
 from logger import MnistAETaskLogger as Logger
-from module.autoencoder_example import LitAutoEncoder
-from dataset.mnist_dataset import get_mnist_data
+from module import LitVAE as LitModule
+from dataset.mnist_dataset import get_mnist_data as get_dataset
+from miscs.config_parser import parse_config
 
 
 if __name__ == '__main__':
@@ -24,9 +25,13 @@ if __name__ == '__main__':
     parser.add_argument("--log_interval", type=int, default=100)
     parser.add_argument("--valid_freq", type=int, default=1000)
 
-    parser.add_argument("--output_dir", type=str, default='outputs')
+    parser.add_argument("--output_dir", type=str, default='outputs_vae')
+    parser.add_argument("--task_config", type=str, default='configs/mnist_ae.yaml')
+    parser.add_argument("--@task_mnist_ae.model.name", type=str, default='vae')
     args = parser.parse_args()
     # -------------------
+    config = parse_config(args.task_config, args)
+
     output_dir = args.output_dir
     checkpoint_dir = osp.join(output_dir, "checkpoints")
     tensorboard_dir = osp.join(output_dir, "tensorboard")
@@ -50,12 +55,12 @@ if __name__ == '__main__':
     # -------------------
     # Step 2: Define data
     # -------------------
-    train_loader, val_loader = get_mnist_data(args)
+    train_loader, val_loader = get_dataset(args)
 
     # -------------------
     # Step 3: Train
     # -------------------
-    model = LitAutoEncoder()
+    model = LitModule(config)
     trainer = L.Trainer(
         logger=logger,
         callbacks=[

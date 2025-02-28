@@ -2,12 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import lightning as L
-import torchvision
 from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR
 
 
 class LitAutoEncoder(L.LightningModule):
-    def __init__(self):
+    def __init__(self, configs):
         super().__init__()
         self.encoder = nn.Sequential(nn.Linear(28 * 28, 128), nn.ReLU(), nn.Linear(128, 3))
         self.decoder = nn.Sequential(nn.Linear(3, 128), nn.ReLU(), nn.Linear(128, 28 * 28))

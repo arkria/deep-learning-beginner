@@ -1,6 +1,7 @@
 .idea/
-outputs/
+outputs*/
 MNIST/
 *.pyc
 */__pycache__/**
 datas/
+.vscode/
