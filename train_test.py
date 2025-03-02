@@ -8,7 +8,7 @@ import argparse
 import os.path as osp
 
 from logger import MnistAETaskLogger as Logger
-from module import LitVAE as LitModule
+from module import LitAutoEncoder as LitModule
 from dataset.mnist_dataset import get_mnist_data as get_dataset
 from miscs.config_parser import parse_config
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser.add_argument("--log_interval", type=int, default=100)
     parser.add_argument("--valid_freq", type=int, default=1000)
 
-    parser.add_argument("--output_dir", type=str, default='outputs_vae')
+    parser.add_argument("--output_dir", type=str, default='outputs/outputs_ae_tf')
     parser.add_argument("--task_config", type=str, default='configs/mnist_ae.yaml')
     parser.add_argument("--@task_mnist_ae.model.name", type=str, default='vae')
     args = parser.parse_args()

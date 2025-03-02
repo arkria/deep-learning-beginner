@@ -3,12 +3,18 @@ import torch.nn as nn
 import torch.nn.functional as F
 import lightning as L
 from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR
+from models.fewshot_memory import TransformersModule
 
 
 class LitAutoEncoder(L.LightningModule):
     def __init__(self, configs):
         super().__init__()
-        self.encoder = nn.Sequential(nn.Linear(28 * 28, 128), nn.ReLU(), nn.Linear(128, 3))
+        # self.encoder = nn.Sequential(nn.Linear(28 * 28, 128), nn.ReLU(), nn.Linear(128, 3))
+        self.encoder = nn.Sequential(
+            nn.Linear(28*28, 128),
+            *[TransformersModule(d_model=128, nhead=8, dropout=0.1) for _ in range(2)],
+            nn.Linear(128, 3)
+        )
         self.decoder = nn.Sequential(nn.Linear(3, 128), nn.ReLU(), nn.Linear(128, 28 * 28))
         self.warmup_steps = 1000  # Warmup 的步数
         self.total_steps = 10000  # 总训练步数

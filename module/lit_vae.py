@@ -60,7 +60,7 @@ class LitVAE(L.LightningModule):
         loss_bce = torch.nn.functional.mse_loss(x_hat, x, reduction='mean')
         loss_kld = -0.5 * torch.mean(1 + log_var - mean.pow(2) - log_var.exp())
         
-        loss = loss_bce + 0.01 * loss_kld
+        loss = loss_bce + 0.02 * loss_kld
         loss_dict = {'loss': loss, 'bce_loss': loss_bce, 'kld_loss': loss_kld}
         self.log_dict(loss_dict)
         return loss_dict
