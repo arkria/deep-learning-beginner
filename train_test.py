@@ -8,9 +8,10 @@ import argparse
 import os.path as osp
 
 from logger import MnistAETaskLogger as Logger
-from module import LitAutoEncoder as LitModule
-from dataset.mnist_dataset import get_mnist_data as get_dataset
-from miscs.config_parser import parse_config
+
+from interface.config_parser import parse_config
+from interface.dataset_interface import build_dataloader
+from interface.module_interface import build_module
 
 
 if __name__ == '__main__':
@@ -25,14 +26,14 @@ if __name__ == '__main__':
     parser.add_argument("--log_interval", type=int, default=100)
     parser.add_argument("--valid_freq", type=int, default=1000)
 
-    parser.add_argument("--output_dir", type=str, default='outputs/outputs_ae_tf')
+    parser.add_argument("--output_dir", type=str, default='outputs')
     parser.add_argument("--task_config", type=str, default='configs/mnist_ae.yaml')
-    parser.add_argument("--@task_mnist_ae.model.name", type=str, default='vae')
+    parser.add_argument("--@task_mnist_ae.model.name", type=str, default='LitAutoEncoder')
     args = parser.parse_args()
     # -------------------
-    config = parse_config(args.task_config, args)
+    configs = parse_config(args.task_config, args)
 
-    output_dir = args.output_dir
+    output_dir = osp.join(args.output_dir, configs.task_name)
     checkpoint_dir = osp.join(output_dir, "checkpoints")
     tensorboard_dir = osp.join(output_dir, "tensorboard")
     log_dir = osp.join(output_dir, "logs.txt")
@@ -43,7 +44,7 @@ if __name__ == '__main__':
 
     checkpoint_callback = ModelCheckpoint(
         dirpath=checkpoint_dir,
-        filename="autoencoder-{epoch:02d}-{step:04d}-{val_loss:.2f}",
+        filename="{epoch:02d}-{step:04d}-{val_loss:.2f}",
         every_n_train_steps=args.model_save_freq,
         save_top_k=-1
     )
@@ -55,12 +56,12 @@ if __name__ == '__main__':
     # -------------------
     # Step 2: Define data
     # -------------------
-    train_loader, val_loader = get_dataset(args)
+    train_loader, val_loader = build_dataloader(args, configs=configs)
 
     # -------------------
     # Step 3: Train
     # -------------------
-    model = LitModule(config)
+    model = build_module(args, configs)
     trainer = L.Trainer(
         logger=logger,
         callbacks=[

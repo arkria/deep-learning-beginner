@@ -1,6 +1,6 @@
-task_name: &TASK_NAME task_mnist_ae
+task_name: &TASK_NAME diffusion_toy
 dataset:
-  name: get_mnist_data
+  name: get_diffusion_toy_data
 
 model:
   name: LitAutoEncoder

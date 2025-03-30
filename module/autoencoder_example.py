@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import lightning as L
 from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR
-from models.fewshot_memory import TransformersModule
+from models.attention_model import TransformersModule
 
 
 class LitAutoEncoder(L.LightningModule):
