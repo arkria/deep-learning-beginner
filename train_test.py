@@ -12,11 +12,12 @@ from logger import MnistAETaskLogger as Logger
 from interface.config_parser import parse_config
 from interface.dataset_interface import build_dataloader
 from interface.module_interface import build_module
+from interface.logger_interface import build_logger
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--max_epochs", type=int, default=10)
+    parser.add_argument("--max_epochs", type=int, default=5000)
     parser.add_argument("--max_steps", type=int, default=10000)
     parser.add_argument("--gpus", type=int, default=0)
 
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     parser.add_argument("--valid_freq", type=int, default=1000)
 
     parser.add_argument("--output_dir", type=str, default='outputs')
-    parser.add_argument("--task_config", type=str, default='configs/mnist_ae.yaml')
+    parser.add_argument("--task_config", type=str, default='configs/diffusion_toy.yaml')
     parser.add_argument("--@task_mnist_ae.model.name", type=str, default='LitAutoEncoder')
     args = parser.parse_args()
     # -------------------
@@ -51,7 +52,7 @@ if __name__ == '__main__':
 
     logger = TensorBoardLogger(save_dir=tensorboard_dir)
     lr_monitor = LearningRateMonitor(logging_interval='step')
-    custom_logger = Logger(log_interval=args.log_interval, log_file=log_dir, img_dump_dir=osp.join(output_dir, 'images'))
+    custom_logger = build_logger(log_dir, args, configs)
 
     # -------------------
     # Step 2: Define data
@@ -71,7 +72,7 @@ if __name__ == '__main__':
         ],
         enable_progress_bar=False,
         enable_model_summary=False,
-        check_val_every_n_epoch=1,
+        check_val_every_n_epoch=1000,
         # val_check_interval=args.valid_freq,
         # max_steps=args.max_steps,
         max_epochs=args.max_epochs,

@@ -3,13 +3,7 @@ dataset:
   name: get_diffusion_toy_data
 
 model:
-  name: LitAutoEncoder
-  params:
-    encoder_layer_sizes: [784, 128]
-    latent_size: 3
-    decoder_layer_sizes: [3, 128, 784]
-    input_shape: [28, 28, 1]
-    latent_dim: 2
+  name: DiffusionToy
 
 optimizer:
   name: Adam
@@ -19,3 +13,8 @@ optimizer:
     total_steps: 10000
     start_factor: 0.01
     eta_min: 1.0e-6
+
+logger:
+  name: DiffusionToyLogger
+  params:
+    img_dump_dir: images

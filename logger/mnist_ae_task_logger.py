@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 
 
 class MnistAETaskLogger(CustomLogger):
-    def __init__(self, log_interval=100, log_file="loss_log.txt", **kwargs):
-        super().__init__(log_interval, log_file, **kwargs)
+    def __init__(self, args, configs, log_interval=100, log_file="loss_log.txt", **kwargs):
+        super().__init__(args, configs, log_interval, log_file, **kwargs)
         self.img_x = []
         self.img_x_hat = []
         self.img_dump_dir = kwargs.get('img_dump_dir', 'output_images')

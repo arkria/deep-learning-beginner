@@ -1,2 +1,3 @@
 from .custom_base_logger import CustomLogger
 from .mnist_ae_task_logger import MnistAETaskLogger
+from .diffusion_toy_logger import DiffusionToyLogger

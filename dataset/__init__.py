@@ -1,2 +1,2 @@
 from .mnist_dataset import get_mnist_data
-# from .generate_diffusion_toy_dataset import get_diffusion_toy_data
+from .generate_diffusion_toy_dataset import get_diffusion_toy_data

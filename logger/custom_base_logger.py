@@ -35,7 +35,7 @@ def set_logger(log_dir):
 
 
 class CustomLogger(ModelSummary):
-    def __init__(self, log_interval=100, log_file="loss_log.txt", **kwargs):
+    def __init__(self, args, configs, log_interval=100, log_file="loss_log.txt", **kwargs):
         super().__init__(**kwargs)
         if osp.exists(log_file):
             os.remove(log_file)
