@@ -54,6 +54,8 @@ for epoch in range(epochs):
   
     # 损失函数
     loss = torch.mean((vt_pred - vt_target)**2)
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}")
   
     # 反向传播
     optimizer.zero_grad()
@@ -85,4 +87,5 @@ plt.scatter(noise_data[:,0], noise_data[:,1], c='red', alpha=0.3, label='Noise')
 plt.plot(trajectory[:,0], trajectory[:,1], 'g-', linewidth=2, label='Generated Path')
 plt.legend()
 plt.title("Flow Matching: From Noise to Target Distribution")
-plt.show()
+plt.savefig("flow_matching_trajectory.png")
+plt.close()

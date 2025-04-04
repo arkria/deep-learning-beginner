@@ -23,27 +23,27 @@ class DiffusionToy(L.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
         # 定义 Linear Warmup 调度器
-        warmup_scheduler = LinearLR(optimizer, start_factor=0.01, total_iters=self.warmup_steps)
+        # warmup_scheduler = LinearLR(optimizer, start_factor=0.01, total_iters=self.warmup_steps)
 
-        # 定义 Cosine Annealing 调度器
-        cosine_scheduler = CosineAnnealingLR(optimizer, T_max=self.total_steps - self.warmup_steps, eta_min=1e-6)
+        # # 定义 Cosine Annealing 调度器
+        # cosine_scheduler = CosineAnnealingLR(optimizer, T_max=self.total_steps - self.warmup_steps, eta_min=1e-6)
 
-        # 组合调度器
-        scheduler = {
-            "scheduler": torch.optim.lr_scheduler.SequentialLR(
-                optimizer,
-                schedulers=[warmup_scheduler, cosine_scheduler],
-                milestones=[self.warmup_steps]
-            ),
-            "interval": "step",  # 每个 step 调整学习率
-            "frequency": 1
-        }
-        return {"optimizer": optimizer, "lr_scheduler": scheduler}
+        # # 组合调度器
+        # scheduler = {
+        #     "scheduler": torch.optim.lr_scheduler.SequentialLR(
+        #         optimizer,
+        #         schedulers=[warmup_scheduler, cosine_scheduler],
+        #         milestones=[self.warmup_steps]
+        #     ),
+        #     "interval": "step",  # 每个 step 调整学习率
+        #     "frequency": 1
+        # }
+        return {"optimizer": optimizer}
 
     def training_step(self, batch, batch_idx):
         # training_step defines the train loop. It is independent of forward
-        x1, x0 = batch
-        # x0 = torch.randn(x1.size(0), x1.size(1), dtype=torch.float32).to(x1.device)  # 生成随机噪声
+        x1, _ = batch
+        x0 = torch.randn(x1.size(0), x1.size(1), dtype=torch.float32).to(x1.device)  # 生成随机噪声
         t = torch.rand(x0.size(0), 1, dtype=torch.float32).to(x1.device)  # 例如：shape (1000, 1)
   
         # 线性插值生成中间点
@@ -61,7 +61,7 @@ class DiffusionToy(L.LightningModule):
     
     def validation_step(self, batch, batch_idx):
         # training_step defines the train loop. It is independent of forward
-        x1 = batch
+        x1, _ = batch
         x0 = torch.randn(x1.size(0), x1.size(1)) * 2
         t = 0
         delta_t = 1 / self.num_steps
@@ -74,7 +74,7 @@ class DiffusionToy(L.LightningModule):
             trajectory.append(x.detach().numpy())
     
         # 损失函数
-        val_error = torch.mean(torch.sin(x[:, 0]) - x[:, 1])
+        val_error = torch.mean(torch.abs(torch.sin(x[:, 0]) - x[:, 1]))
         self.log_dict({'val_error': val_error})
         trajectory = np.concatenate(np.expand_dims(trajectory, 0), axis=0).transpose(1, 0, 2)
         return {'val_loss': val_error, 

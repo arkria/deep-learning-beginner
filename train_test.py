@@ -7,8 +7,6 @@ from lightning.pytorch.callbacks import LearningRateMonitor
 import argparse
 import os.path as osp
 
-from logger import MnistAETaskLogger as Logger
-
 from interface.config_parser import parse_config
 from interface.dataset_interface import build_dataloader
 from interface.module_interface import build_module
@@ -17,11 +15,11 @@ from interface.logger_interface import build_logger
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--max_epochs", type=int, default=5000)
+    parser.add_argument("--max_epochs", type=int, default=100)
     parser.add_argument("--max_steps", type=int, default=10000)
     parser.add_argument("--gpus", type=int, default=0)
 
-    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--model_save_freq", type=int, default=1000)
     parser.add_argument("--log_interval", type=int, default=100)
@@ -72,7 +70,7 @@ if __name__ == '__main__':
         ],
         enable_progress_bar=False,
         enable_model_summary=False,
-        check_val_every_n_epoch=1000,
+        check_val_every_n_epoch=10,
         # val_check_interval=args.valid_freq,
         # max_steps=args.max_steps,
         max_epochs=args.max_epochs,
