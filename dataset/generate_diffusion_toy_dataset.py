@@ -27,12 +27,10 @@ def get_diffusion_toy_data(args, configs):
     """
     num_samples = 10000
     dim = 2
-    # 生成正弦波数据
-    noise_data = np.random.randn(num_samples, dim).astype(np.float32) * 2
 
     x1_samples = np.random.rand(num_samples, 1) * 4 * np.pi  # 0到4π
     y1_samples = np.sin(x1_samples)                      # y=sin(x)
     target_data = np.concatenate([x1_samples, y1_samples], axis=1).astype(np.float32)
-    train_data = DiffusionToyDataset(target_data, noise_data)
-    val_data = DiffusionToyDataset(target_data[:10], noise_data[:10])
+    train_data = DiffusionToyDataset(target_data)
+    val_data = DiffusionToyDataset(target_data[:100])
     return train_data, val_data

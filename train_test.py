@@ -70,7 +70,7 @@ if __name__ == '__main__':
         ],
         enable_progress_bar=False,
         enable_model_summary=False,
-        check_val_every_n_epoch=10,
+        check_val_every_n_epoch=100,
         # val_check_interval=args.valid_freq,
         # max_steps=args.max_steps,
         max_epochs=args.max_epochs,

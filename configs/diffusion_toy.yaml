@@ -4,15 +4,15 @@ dataset:
 
 model:
   name: DiffusionToy
+  params:
+    diffusion_alg: ddpm
+    denoise_steps: 1000
+
 
 optimizer:
   name: Adam
   params:
     lr: 0.001
-    warmup_steps: 1000
-    total_steps: 10000
-    start_factor: 0.01
-    eta_min: 1.0e-6
 
 logger:
   name: DiffusionToyLogger
