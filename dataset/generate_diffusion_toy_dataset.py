@@ -29,7 +29,7 @@ def get_diffusion_toy_data(args, configs):
     dim = 2
 
     x1_samples = np.random.rand(num_samples, 1) * 4 * np.pi  # 0到4π
-    y1_samples = np.sin(x1_samples)                      # y=sin(x)
+    y1_samples = np.sin(x1_samples)                  # y=sin(x)
     target_data = np.concatenate([x1_samples, y1_samples], axis=1).astype(np.float32)
     train_data = DiffusionToyDataset(target_data)
     val_data = DiffusionToyDataset(target_data[:100])

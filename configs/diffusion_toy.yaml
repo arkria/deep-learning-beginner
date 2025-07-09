@@ -1,4 +1,4 @@
-task_name: &TASK_NAME diffusion_toy
+task_name: &TASK_NAME diffusion_ddpm
 dataset:
   name: get_diffusion_toy_data
 
@@ -6,7 +6,7 @@ model:
   name: DiffusionToy
   params:
     diffusion_alg: ddpm
-    denoise_steps: 1000
+    denoise_steps: 500
 
 
 optimizer:

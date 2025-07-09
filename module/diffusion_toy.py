@@ -60,7 +60,7 @@ class DiffusionToy(L.LightningModule):
                 'trajectory': [v for v in trajectory]}
     
     def generate_noise(self, x_target):
-        return torch.randn_like(x_target)
+        return torch.randn_like(x_target) * 2
     
     def flow_matching_train(self, batch):
         x1 = batch
@@ -84,7 +84,7 @@ class DiffusionToy(L.LightningModule):
         t = 0
         delta_t = 1 / self.T
         x = x0.clone()
-        trajectory = []
+        trajectory = [x0.detach().numpy()]
         for i in range(self.T):
             vt = self.model(x, torch.tensor([[t]], dtype=torch.float32).to(x.device).repeat(x.shape[0], 1))  # t的维度保持不变
             t += delta_t
@@ -109,7 +109,7 @@ class DiffusionToy(L.LightningModule):
         x0 = batch
         noise = self.generate_noise(x0)  # 初始噪声点
         x = noise.clone()
-        trajectory = []
+        trajectory = [x.detach().numpy()]
         for t in reversed(range(self.T)):
             t_batch = torch.tensor([[t]], dtype=torch.float32).to(x.device).repeat(x.shape[0], 1)
             z = torch.randn_like(x) if t > 0 else 0
