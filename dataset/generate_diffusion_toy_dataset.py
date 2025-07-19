@@ -18,7 +18,7 @@ class DiffusionToyDataset(data.Dataset):
             return self.target_data[idx]
     
 
-def get_diffusion_toy_data(args, configs):
+def get_diffusion_toy_data(cfg):
     """
     生成一个简单的正弦波数据集
     :param args: 参数

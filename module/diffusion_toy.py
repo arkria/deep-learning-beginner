@@ -6,12 +6,12 @@ import numpy as np
 
 
 class DiffusionToy(L.LightningModule):
-    def __init__(self, configs):
+    def __init__(self, cfg):
         super().__init__()
-        self.diffusion_alg = configs.model.params.diffusion_alg
-        self.lr = configs.optimizer.params.lr
+        self.diffusion_alg = cfg.model.params.diffusion_alg
+        self.lr = cfg.optimizer.params.lr
         self.model = SimpleMlp(dim=2)
-        self.T = configs.model.params.denoise_steps
+        self.T = cfg.model.params.denoise_steps
         if self.diffusion_alg in ['ddpm', 'ddim']:
             beta_start = 1e-4
             beta_end = 0.02

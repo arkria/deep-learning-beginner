@@ -1,0 +1,3 @@
+name: get_diffusion_toy_data
+batch_size: 64
+num_workers: 4

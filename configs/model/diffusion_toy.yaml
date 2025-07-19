@@ -1,0 +1,4 @@
+name: DiffusionToy
+params:
+  diffusion_alg: ddpm
+  denoise_steps: 500

@@ -1,0 +1,3 @@
+name: DiffusionToyLogger
+params:
+  img_dump_dir: images

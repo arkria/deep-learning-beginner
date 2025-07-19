@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import lightning as L
 from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR
 
-from models.vae import VAE
+from lib.models.vae import VAE
 
 
 class LitVAE(L.LightningModule):

@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 
 
 class DiffusionToyLogger(CustomLogger):
-    def __init__(self,args, configs, log_interval=100, log_file="loss_log.txt", **kwargs):
-        super().__init__(args, configs, log_interval, log_file, **kwargs)
+    def __init__(self,configs, log_interval=100, log_file="loss_log.txt", **kwargs):
+        super().__init__(configs, log_interval, log_file, **kwargs)
         self.noise = []
         self.target = []
         self.trajectory = []

@@ -21,21 +21,21 @@ def set_logger(log_dir):
         '%(asctime)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S"
     )
 
-    fh = logging.FileHandler(log_dir)
-    fh.setLevel(logging.DEBUG)
-    fh.setFormatter(formatter)
+    # fh = logging.FileHandler(log_dir)
+    # fh.setLevel(logging.DEBUG)
+    # fh.setFormatter(formatter)
 
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     ch.setFormatter(formatter)
 
-    logger.addHandler(fh)
+    # logger.addHandler(fh)
     logger.addHandler(ch)
     return logger
 
 
 class CustomLogger(ModelSummary):
-    def __init__(self, args, configs, log_interval=100, log_file="loss_log.txt", **kwargs):
+    def __init__(self, configs, log_interval=100, log_file="loss_log.txt", **kwargs):
         super().__init__(**kwargs)
         if osp.exists(log_file):
             os.remove(log_file)

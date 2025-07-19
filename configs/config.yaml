@@ -1,0 +1,17 @@
+hydra:
+  run:
+    dir: ${output_dir}
+  job:
+    name: ${task_name}
+
+task_name: diffusion_ddpm
+output_dir: ./outputs/${task_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  - _self_
+  - dataset: diffusion_toy
+  - model: diffusion_toy
+  - optimizer: adam_simple
+  - logger: diffusion_toy
+  - common
+      
